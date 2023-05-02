@@ -2,6 +2,7 @@
 import {Router} from 'express';
 // Importa TesteController
 import TesteController from './src/controllers/TesteController'
+import ProdutoController from './src/controllers/ProdutoController'
 import ValidaTeste1 from './src/middlewares/ValidaTeste1';
 
 // Instancia roteador
@@ -13,4 +14,9 @@ Roteador.get(    // URL com parêmetro :id
              // Aciona função do TesteController   
              ValidaTeste1, 
              new TesteController().teste1);
+             Roteador.get('/produtos', new ProdutoController().index);
+             Roteador.get('/produtos/:id', new ProdutoController().show);
+             Roteador.post('/produtos', new ProdutoController().store);
+             Roteador.put('/produtos/:id', new ProdutoController().update);
+             Roteador.delete('/produtos/:id', new ProdutoController().delete);
              export default Roteador;
