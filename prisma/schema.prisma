@@ -7,11 +7,43 @@ datasource db {
   provider = "mysql"  
   url      = env("DATABASE_URL")
 }
+
+model Fornecedores {
+  id Int @id @default(autoincrement())
+  nome String @db.VarChar(20)
+  cnpj Decimal @unique 
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  produtos Produto[]
+
+  @@map("fornecedores")
+}
+
 model Produto {  
   id Int @id @default(autoincrement())  
   nome String @db.VarChar(100)  
   preco Decimal @db.Decimal(12,2)  
   createdAt DateTime? @default(now())  
   updatedAt DateTime? @updatedAt  
+
+  // Associação com categoria - produto é de uma unica categoria 
+  categoriaId Int 
+  categoria Categoria @relation(fields: [categoriaId], references: [id])
+
+  // produtos tem varios fornecedores 
+  fornecedores Fornecedores[]
+
   @@map("podutos")
+}
+
+
+
+model Categoria {
+  id Int @id @default(autoincrement())
+  nome String @db.VarChar(50)
+
+  produtos Produto[]
+
+  @@map("categorias")
 }
